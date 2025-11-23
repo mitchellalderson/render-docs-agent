@@ -14,7 +14,7 @@ projects:
             runtime: docker
             region: oregon
             plan: starter
-            dockerfilePath: ./Dockerfile
+            dockerfilePath: ./backend/Dockerfile
             dockerContext: ./backend
             healthCheckPath: /health
             envVars:
@@ -82,7 +82,7 @@ projects:
             runtime: docker
             region: oregon
             plan: starter
-            dockerfilePath: ./Dockerfile
+            dockerfilePath: ./frontend/Dockerfile
             dockerContext: ./frontend
             envVars:
               - key: NEXT_PUBLIC_API_URL
