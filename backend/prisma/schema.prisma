@@ -1,0 +1,70 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+  previewFeatures = ["postgresqlExtensions"]
+  binaryTargets = ["native", "linux-musl-openssl-3.0.x", "linux-musl-arm64-openssl-3.0.x"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+  extensions = [vector]
+}
+
+model Document {
+  id          String   @id @default(cuid())
+  title       String
+  content     String   @db.Text
+  type        String   // 'markdown' or 'openapi'
+  fileName    String
+  metadata    Json?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  chunks      DocumentChunk[]
+  
+  @@map("documents")
+}
+
+model DocumentChunk {
+  id          String   @id @default(cuid())
+  documentId  String
+  chunkIndex  Int
+  content     String   @db.Text
+  embedding   Unsupported("vector(1536)")?
+  metadata    Json?
+  createdAt   DateTime @default(now())
+  
+  document    Document @relation(fields: [documentId], references: [id], onDelete: Cascade)
+  
+  @@index([documentId])
+  @@map("document_chunks")
+}
+
+model ChatSession {
+  id          String   @id @default(cuid())
+  sessionId   String   @unique @default(cuid())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  messages    ChatMessage[]
+  
+  @@map("chat_sessions")
+}
+
+model ChatMessage {
+  id          String   @id @default(cuid())
+  sessionId   String
+  role        String   // 'user' or 'assistant'
+  content     String   @db.Text
+  sources     Json?    // References to document chunks used
+  timestamp   DateTime @default(now())
+  
+  session     ChatSession @relation(fields: [sessionId], references: [sessionId], onDelete: Cascade)
+  
+  @@index([sessionId])
+  @@map("chat_messages")
+}
+

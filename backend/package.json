@@ -1,0 +1,64 @@
+{
+  "name": "render-docs-agent-backend",
+  "version": "1.0.0",
+  "description": "Backend API for Render Docs Agent",
+  "main": "dist/index.js",
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "db:migrate": "prisma migrate dev",
+    "db:migrate:deploy": "prisma migrate deploy",
+    "db:reset": "prisma migrate reset",
+    "db:studio": "prisma studio",
+    "db:generate": "prisma generate",
+    "db:push": "prisma db push",
+    "db:init": "tsx src/scripts/init-database.ts",
+    "postdeploy": "tsx src/scripts/post-deploy.ts",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "lint": "eslint src --ext .ts",
+    "format": "prettier --write \"src/**/*.ts\""
+  },
+  "keywords": ["documentation", "ai", "rag", "chatbot"],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.27.0",
+    "@prisma/client": "^5.7.0",
+    "express": "^4.18.2",
+    "cors": "^2.8.5",
+    "helmet": "^7.1.0",
+    "dotenv": "^16.3.1",
+    "multer": "^1.4.5-lts.1",
+    "openai": "^4.20.0",
+    "marked": "^11.0.0",
+    "swagger-parser": "^10.0.3",
+    "pgvector": "^0.1.8",
+    "zod": "^3.22.4",
+    "express-rate-limit": "^7.1.5",
+    "morgan": "^1.10.0",
+    "compression": "^1.7.4"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.21",
+    "@types/cors": "^2.8.17",
+    "@types/multer": "^1.4.11",
+    "@types/node": "^20.10.5",
+    "@types/morgan": "^1.9.9",
+    "@types/compression": "^1.7.5",
+    "@typescript-eslint/eslint-plugin": "^6.15.0",
+    "@typescript-eslint/parser": "^6.15.0",
+    "eslint": "^8.56.0",
+    "prettier": "^3.1.1",
+    "typescript": "^5.3.3",
+    "tsx": "^4.7.0",
+    "prisma": "^5.7.0",
+    "jest": "^29.7.0",
+    "@types/jest": "^29.5.11"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}
+

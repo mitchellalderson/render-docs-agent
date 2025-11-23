@@ -1,0 +1,67 @@
+-- CreateExtension
+CREATE EXTENSION IF NOT EXISTS vector;
+
+-- CreateTable
+CREATE TABLE "documents" (
+    "id" TEXT NOT NULL,
+    "title" TEXT NOT NULL,
+    "content" TEXT NOT NULL,
+    "type" TEXT NOT NULL,
+    "fileName" TEXT NOT NULL,
+    "metadata" JSONB,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "documents_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "document_chunks" (
+    "id" TEXT NOT NULL,
+    "documentId" TEXT NOT NULL,
+    "chunkIndex" INTEGER NOT NULL,
+    "content" TEXT NOT NULL,
+    "embedding" vector(1536),
+    "metadata" JSONB,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT "document_chunks_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "chat_sessions" (
+    "id" TEXT NOT NULL,
+    "sessionId" TEXT NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "chat_sessions_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "chat_messages" (
+    "id" TEXT NOT NULL,
+    "sessionId" TEXT NOT NULL,
+    "role" TEXT NOT NULL,
+    "content" TEXT NOT NULL,
+    "sources" JSONB,
+    "timestamp" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT "chat_messages_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateIndex
+CREATE INDEX "document_chunks_documentId_idx" ON "document_chunks"("documentId");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "chat_sessions_sessionId_key" ON "chat_sessions"("sessionId");
+
+-- CreateIndex
+CREATE INDEX "chat_messages_sessionId_idx" ON "chat_messages"("sessionId");
+
+-- AddForeignKey
+ALTER TABLE "document_chunks" ADD CONSTRAINT "document_chunks_documentId_fkey" FOREIGN KEY ("documentId") REFERENCES "documents"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "chat_messages" ADD CONSTRAINT "chat_messages_sessionId_fkey" FOREIGN KEY ("sessionId") REFERENCES "chat_sessions"("sessionId") ON DELETE CASCADE ON UPDATE CASCADE;
+

@@ -1,0 +1,51 @@
+# Files to ignore during Render deployment
+
+# Development files
+.env
+.env.local
+.env*.local
+*.log
+
+# Dependencies
+node_modules/
+
+# Build artifacts (will be rebuilt)
+dist/
+build/
+.next/
+out/
+
+# Tests
+__tests__/
+*.test.ts
+*.test.js
+*.spec.ts
+*.spec.js
+coverage/
+
+# Documentation
+*.md
+!README.md
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# Git
+.git/
+.gitignore
+
+# Docker (not needed on Render)
+docker-compose.yml
+Dockerfile.dev
+.dockerignore
+
+# Test data
+test-docs/
+fixtures/
+
+# Misc
+.DS_Store
+Thumbs.db
+

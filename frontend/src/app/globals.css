@@ -1,0 +1,210 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 240 10% 3.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 240 10% 3.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 10% 3.9%;
+    --primary: 262 83% 58%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 240 4.8% 95.9%;
+    --secondary-foreground: 240 5.9% 10%;
+    --muted: 240 4.8% 95.9%;
+    --muted-foreground: 240 3.8% 46.1%;
+    --accent: 180 100% 50%;
+    --accent-foreground: 240 5.9% 10%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 5.9% 90%;
+    --input: 240 5.9% 90%;
+    --ring: 262 83% 58%;
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 240 10% 3.9%;
+    --foreground: 0 0% 98%;
+    --card: 240 10% 7%;
+    --card-foreground: 0 0% 98%;
+    --popover: 240 10% 7%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 262 83% 58%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 240 3.7% 15.9%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 240 3.7% 15.9%;
+    --muted-foreground: 240 5% 64.9%;
+    --accent: 180 100% 50%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 3.7% 15.9%;
+    --input: 240 3.7% 15.9%;
+    --ring: 262 83% 58%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+  
+  /* Smooth transitions for interactive elements */
+  button, a, input, textarea, select {
+    @apply transition-colors duration-200;
+  }
+}
+
+/* Animation keyframes */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slide-in-from-bottom {
+  from {
+    transform: translateY(10px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slide-in-from-top {
+  from {
+    transform: translateY(-10px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes scale-in {
+  from {
+    transform: scale(0.95);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Animation utilities */
+.animate-fade-in {
+  animation: fade-in 0.3s ease-out;
+}
+
+.animate-slide-in-bottom {
+  animation: slide-in-from-bottom 0.3s ease-out;
+}
+
+.animate-slide-in-top {
+  animation: slide-in-from-top 0.3s ease-out;
+}
+
+.animate-scale-in {
+  animation: scale-in 0.2s ease-out;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-muted;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-primary/50 rounded-md;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-primary/70;
+}
+
+/* Markdown styles */
+.markdown {
+  @apply text-foreground;
+}
+
+.markdown h1 {
+  @apply text-3xl font-bold mb-4 mt-6;
+}
+
+.markdown h2 {
+  @apply text-2xl font-bold mb-3 mt-5;
+}
+
+.markdown h3 {
+  @apply text-xl font-semibold mb-2 mt-4;
+}
+
+.markdown p {
+  @apply mb-4 leading-7;
+}
+
+.markdown ul,
+.markdown ol {
+  @apply mb-4 ml-6 space-y-2;
+}
+
+.markdown ul {
+  @apply list-disc;
+}
+
+.markdown ol {
+  @apply list-decimal;
+}
+
+.markdown code {
+  @apply bg-muted px-1.5 py-0.5 rounded text-sm font-mono;
+}
+
+.markdown pre {
+  @apply bg-muted p-4 rounded-lg overflow-x-auto mb-4;
+}
+
+.markdown pre code {
+  @apply bg-transparent p-0;
+}
+
+.markdown a {
+  @apply text-primary hover:underline;
+}
+
+.markdown blockquote {
+  @apply border-l-4 border-primary pl-4 italic my-4;
+}
+
+.markdown table {
+  @apply w-full border-collapse mb-4;
+}
+
+.markdown th,
+.markdown td {
+  @apply border border-border px-4 py-2;
+}
+
+.markdown th {
+  @apply bg-muted font-semibold;
+}
+
