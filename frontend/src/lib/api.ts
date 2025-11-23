@@ -1,6 +1,17 @@
 import axios from 'axios';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
+// Get API URL from runtime config or fallback to localhost
+const getApiUrl = () => {
+  // Check if we're in the browser
+  if (typeof window !== 'undefined') {
+    // Try to get from window object (can be set by a config endpoint)
+    return (window as any).__API_URL__ || process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
+  }
+  // Server-side: use environment variable
+  return process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
+};
+
+const API_URL = getApiUrl();
 
 export const api = axios.create({
   baseURL: API_URL,
