@@ -116,7 +116,7 @@ ${formattedContext}
 
 1. **Base answers on the provided context**: Only provide information that can be found in or reasonably inferred from the documentation above.
 
-2. **Cite sources**: When referencing specific information, mention which source it comes from (e.g., "According to Source 1..." or "As shown in the API documentation...").
+2. **Cite sources using actual file names**: When referencing specific information, cite the actual document name shown in the brackets (e.g., "According to [example-api.md]..." or "As shown in [getting-started.md]..."). DO NOT use generic labels like "Source 1" or "Source 2".
 
 3. **Be accurate and precise**: If the documentation doesn't contain the answer, clearly state that. Don't make assumptions or provide information not in the documentation.
 

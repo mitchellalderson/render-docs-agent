@@ -82,8 +82,7 @@ export class ContextBuilder {
         const section = metadata.section ? ` - ${metadata.section}` : '';
         const similarity = metadata.similarity ? ` (relevance: ${(metadata.similarity * 100).toFixed(0)}%)` : '';
 
-        return `[Source ${index}${section}]${similarity}
-From: ${source}
+        return `[${source}${section}]${similarity}
 
 ${chunk.content}
 
