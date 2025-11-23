@@ -27,8 +27,8 @@ services:
   # Backend API
   backend:
     build:
-      context: ./backend
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: backend/Dockerfile
       target: development
     container_name: docs-agent-backend
     env_file:
@@ -66,8 +66,8 @@ services:
   # Frontend
   frontend:
     build:
-      context: ./frontend
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: frontend/Dockerfile
       target: development
     container_name: docs-agent-frontend
     env_file:

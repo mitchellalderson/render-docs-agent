@@ -168,8 +168,8 @@ export class RAGService {
         content: r.content,
         metadata: {
           ...r.metadata,
-          documentTitle: r.document_title,
-          fileName: r.file_name,
+          documentTitle: r.documentTitle,
+          fileName: r.fileName,
           similarity: r.similarity,
           chunkIndex: r.chunkIndex,
         },
@@ -224,7 +224,7 @@ export class RAGService {
   async getSearchStats() {
     const totalChunks = await prisma.documentChunk.count();
     const chunksWithEmbeddings = await prisma.documentChunk.count({
-      where: { embedding: { not: null } },
+      where: { NOT: { embedding: null } },
     });
 
     return {

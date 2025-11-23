@@ -3,14 +3,14 @@ FROM node:22-alpine AS development
 
 WORKDIR /app
 
-# Copy package files
-COPY package*.json ./
+# Copy package files (from frontend/ since build context is root for Render)
+COPY frontend/package*.json ./
 
 # Use npm install for development
 RUN npm install
 
 # Copy source code
-COPY . .
+COPY frontend/ .
 
 EXPOSE 3000
 
@@ -21,14 +21,14 @@ FROM node:22-alpine AS build
 
 WORKDIR /app
 
-# Copy package files
-COPY package*.json ./
+# Copy package files (from frontend/ since build context is root)
+COPY frontend/package*.json ./
 
 # Use install instead of ci to handle lockfile version differences
 RUN npm install --production=false
 
 # Copy source code
-COPY . .
+COPY frontend/ .
 
 RUN npm run build
 

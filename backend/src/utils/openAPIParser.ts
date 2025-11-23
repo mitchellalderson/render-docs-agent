@@ -64,8 +64,9 @@ export class OpenAPIParser {
       }
 
       // Parse schemas
-      if (api.components?.schemas) {
-        for (const [schemaName, schema] of Object.entries(api.components.schemas)) {
+      const apiDoc = api as any;
+      if (apiDoc.components?.schemas) {
+        for (const [schemaName, schema] of Object.entries(apiDoc.components.schemas)) {
           chunks.push({
             content: `Schema: ${schemaName}\n${JSON.stringify(schema, null, 2)}`,
             metadata: {
