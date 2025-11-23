@@ -16,8 +16,11 @@ interface SearchResult {
   content: string;
   metadata: any;
   similarity: number;
-  documentTitle: string;
-  fileName: string;
+  // Support both snake_case (from SQL) and camelCase
+  documentTitle?: string;
+  document_title?: string;
+  fileName?: string;
+  file_name?: string;
   chunkIndex: number;
 }
 
@@ -168,8 +171,9 @@ export class RAGService {
         content: r.content,
         metadata: {
           ...r.metadata,
-          documentTitle: r.documentTitle,
-          fileName: r.fileName,
+          // Map snake_case from SQL to camelCase for frontend
+          documentTitle: r.document_title || r.documentTitle,
+          fileName: r.file_name || r.fileName,
           similarity: r.similarity,
           chunkIndex: r.chunkIndex,
         },
@@ -186,7 +190,8 @@ export class RAGService {
    */
   private groupByDocument(results: SearchResult[]) {
     return results.reduce((acc, result) => {
-      const fileName = result.fileName;
+      // Handle both snake_case (from SQL) and camelCase
+      const fileName = result.file_name || result.fileName || 'Unknown';
       if (!acc[fileName]) {
         acc[fileName] = [];
       }
