@@ -6,15 +6,15 @@ RUN apk add --no-cache openssl libc6-compat
 
 WORKDIR /app
 
-# Copy package files (from backend/ since build context is root for Render)
-COPY backend/package*.json ./
-COPY backend/prisma ./prisma/
+# Copy package files
+COPY package*.json ./
+COPY prisma ./prisma/
 
 # Install dependencies
 RUN npm install
 
 # Copy source code
-COPY backend/ .
+COPY . .
 
 # Generate Prisma client
 RUN npx prisma generate
@@ -31,15 +31,15 @@ RUN apk add --no-cache openssl libc6-compat
 
 WORKDIR /app
 
-# Copy package files (from backend/ since build context is root)
-COPY backend/package*.json ./
-COPY backend/prisma ./prisma/
+# Copy package files
+COPY package*.json ./
+COPY prisma ./prisma/
 
 # Use install instead of ci to handle lockfile version differences
 RUN npm install --production=false
 
 # Copy source code
-COPY backend/ .
+COPY . .
 
 RUN npx prisma generate
 RUN npm run build

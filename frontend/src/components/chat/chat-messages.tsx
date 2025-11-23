@@ -9,6 +9,7 @@ interface Message {
   role: 'user' | 'assistant';
   content: string;
   sources?: any[];
+  error?: boolean;
 }
 
 interface ChatMessagesProps {
