@@ -54,6 +54,10 @@ WORKDIR /app
 
 ENV NODE_ENV=production
 
+# Copy startup script from source
+COPY start.sh ./
+RUN chmod +x start.sh
+
 # Copy package files and prisma schema from build stage
 COPY --from=build /app/package*.json ./
 COPY --from=build /app/prisma ./prisma/
@@ -70,5 +74,6 @@ RUN npx prisma generate
 
 EXPOSE 3001
 
-CMD ["npm", "start"]
+# Use startup script to run migrations before starting
+CMD ["./start.sh"]
 
