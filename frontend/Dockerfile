@@ -47,8 +47,8 @@ RUN npm install --omit=dev
 
 # Copy built application from build stage
 COPY --from=build /app/.next ./.next
-COPY --from=build /app/public ./public
 COPY --from=build /app/next.config.js ./
+# Note: public directory doesn't exist in this project
 
 EXPOSE 3000
 
