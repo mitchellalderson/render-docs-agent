@@ -15,8 +15,8 @@ projects:
             region: oregon
             plan: starter
             dockerfilePath: ./backend/Dockerfile
-            dockerContext: ./
-            healthCheckPath: /api/health
+            dockerContext: ./backend
+            healthCheckPath: /health
             envVars:
               - key: NODE_ENV
                 value: production
@@ -83,7 +83,7 @@ projects:
             region: oregon
             plan: starter
             dockerfilePath: ./frontend/Dockerfile
-            dockerContext: ./
+            dockerContext: ./frontend
             envVars:
               - key: NEXT_PUBLIC_API_URL
                 fromService:

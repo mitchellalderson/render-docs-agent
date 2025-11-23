@@ -10,7 +10,7 @@ WORKDIR /app
 COPY package*.json ./
 COPY prisma ./prisma/
 
-# Install dependencies (use npm install for development)
+# Install dependencies
 RUN npm install
 
 # Copy source code
@@ -31,12 +31,14 @@ RUN apk add --no-cache openssl libc6-compat
 
 WORKDIR /app
 
+# Copy package files
 COPY package*.json ./
 COPY prisma ./prisma/
 
 # Use install instead of ci to handle lockfile version differences
 RUN npm install --production=false
 
+# Copy source code
 COPY . .
 
 RUN npx prisma generate
@@ -52,15 +54,18 @@ WORKDIR /app
 
 ENV NODE_ENV=production
 
-COPY package*.json ./
-COPY prisma ./prisma/
+# Copy package files and prisma schema from build stage
+COPY --from=build /app/package*.json ./
+COPY --from=build /app/prisma ./prisma/
 
-# Use install with omit=dev instead of ci for compatibility
+# Install only production dependencies
 RUN npm install --omit=dev
 
+# Copy built application from build stage
 COPY --from=build /app/dist ./dist
 COPY --from=build /app/node_modules/.prisma ./node_modules/.prisma
 
+# Generate Prisma client for production
 RUN npx prisma generate
 
 EXPOSE 3001
