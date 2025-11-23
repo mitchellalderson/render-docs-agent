@@ -223,9 +223,14 @@ export class RAGService {
    */
   async getSearchStats() {
     const totalChunks = await prisma.documentChunk.count();
-    const chunksWithEmbeddings = await prisma.documentChunk.count({
-      where: { NOT: { embedding: null } },
-    });
+    
+    // Use raw query to count chunks with embeddings (Prisma type system limitation)
+    const result = await prisma.$queryRaw<[{ count: bigint }]>`
+      SELECT COUNT(*) as count 
+      FROM document_chunks 
+      WHERE embedding IS NOT NULL
+    `;
+    const chunksWithEmbeddings = Number(result[0].count);
 
     return {
       totalChunks,
