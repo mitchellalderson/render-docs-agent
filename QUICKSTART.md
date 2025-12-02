@@ -23,6 +23,15 @@ cd render-docs-agent
 
 ### 2. Create Environment File
 
+**Option A: Use the template (Recommended)**
+
+```bash
+cp env.example .env
+# Then edit .env and add your API keys
+```
+
+**Option B: Create manually**
+
 Create a file named `.env` in the root directory:
 
 ```bash
@@ -33,6 +42,7 @@ ANTHROPIC_API_KEY=sk-ant-your-actual-anthropic-key-here
 OPENAI_API_KEY=sk-your-actual-openai-key-here
 
 # Database configuration (change password for production)
+# IMPORTANT: Database name MUST be "docs_agent" with underscore!
 POSTGRES_USER=docsagent
 POSTGRES_PASSWORD=docsagent_dev_password
 POSTGRES_DB=docs_agent
@@ -246,6 +256,24 @@ lsof -i :5432
 
 ### Database not initializing?
 
+**Error: `database "docsagent" does not exist`**
+
+Your `.env` file has the wrong database name:
+
+```bash
+# Fix in .env - change this:
+POSTGRES_DB=docsagent  # ❌ Wrong (no underscore)
+
+# To this:
+POSTGRES_DB=docs_agent  # ✅ Correct (WITH underscore!)
+
+# Then recreate the database:
+docker compose down -v
+docker compose up -d
+```
+
+**Other database issues:**
+
 The database initializes automatically on first startup. If you see errors:
 
 ```bash
@@ -344,11 +372,10 @@ Edit `backend/src/services/ragService.ts` to adjust:
 
 ### Deploy to Production
 
-Ready to deploy? See [DEPLOYMENT.md](./DEPLOYMENT.md) for:
+Ready to deploy to Render? See the main [README.md](./README.md#-deploy-to-render) for:
 - **Render.com**: One-click deployment using the included `render.yaml`
 - **Blueprint setup**: Automatically creates database, backend, and frontend
 - **Environment variables**: Production configuration guide
-- **Custom domains**: How to use your own domain
 
 **Quick deploy to Render:**
 1. Push your code to GitHub
@@ -358,15 +385,11 @@ Ready to deploy? See [DEPLOYMENT.md](./DEPLOYMENT.md) for:
 5. Add your API keys
 6. Deploy!
 
-See the full guide at [DEPLOYMENT.md](./DEPLOYMENT.md) for detailed instructions.
-
 ## Need Help?
 
 - **API Documentation**: See [backend/API.md](./backend/API.md)
-- **Setup Details**: See [SETUP.md](./SETUP.md)
-- **Testing Guide**: See [TESTING.md](./TESTING.md)
-- **Project Architecture**: See [PROJECT_PLAN.md](./PROJECT_PLAN.md)
-- **RAG Implementation**: See [PHASE3_SUMMARY.md](./PHASE3_SUMMARY.md)
+- **Full README**: See [README.md](./README.md) for complete documentation
+- **Troubleshooting**: See the [Troubleshooting section](./README.md#-troubleshooting) in README
 
 ## Common Questions
 
@@ -488,5 +511,5 @@ Lists all active chat sessions.
 
 **That's it!** You now have a production-ready AI docs agent running locally. Upload your docs and start chatting! 🎉
 
-**Ready for production?** → See [DEPLOYMENT.md](./DEPLOYMENT.md) to deploy to Render.com
+**Ready for production?** → See [README.md](./README.md#-deploy-to-render) to deploy to Render.com
 

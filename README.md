@@ -7,10 +7,10 @@ An AI-powered documentation agent that helps users interact with their product d
 **Want to run this locally in 5 minutes?** → Just run:
 
 ```bash
-./start-docker.sh
+make setup
 ```
 
-The automated script will guide you through setup and start everything automatically!
+This will install dependencies, start all services, and initialize the database!
 
 ---
 
@@ -133,24 +133,30 @@ This project is pre-configured for one-click deployment to [Render](https://rend
 - [Anthropic API key](https://console.anthropic.com/)
 - [OpenAI API key](https://platform.openai.com/api-keys)
 
-### Option 1: Automated Script (Recommended)
+### Option 1: Quick Setup (Recommended)
 
 ```bash
 # Clone the repo
 git clone <your-repo-url>
 cd render-docs-agent
 
-# Run the automated setup script
-./start-docker.sh
+# Create environment file from template
+cp env.example .env
+
+# Edit .env and add your API keys:
+#   ANTHROPIC_API_KEY=sk-ant-your-actual-key
+#   OPENAI_API_KEY=sk-your-actual-key
+# IMPORTANT: Keep POSTGRES_DB=docs_agent (with underscore!)
+
+# Run complete setup (install, start, migrate, initialize)
+make setup
 ```
 
-The script will:
-1. ✅ Create `.env` file if missing
-2. ✅ Prompt for your API keys
-3. ✅ Start all services (database, backend, frontend)
-4. ✅ Run database migrations automatically
-5. ✅ Create vector indexes for fast search
-6. ✅ Verify everything is working
+This will:
+1. ✅ Install all dependencies
+2. ✅ Start all services (database, backend, frontend)
+3. ✅ Run database migrations automatically
+4. ✅ Create vector indexes for fast search
 
 ### Option 2: Manual Setup
 
@@ -159,13 +165,14 @@ The script will:
 git clone <your-repo-url>
 cd render-docs-agent
 
-# 2. Create environment file
-cp .env.example .env
+# 2. Create environment file from template
+cp env.example .env
 
 # 3. Edit .env and add your API keys
 # Required:
 #   ANTHROPIC_API_KEY=sk-ant-your-actual-key
 #   OPENAI_API_KEY=sk-your-actual-key
+# IMPORTANT: Ensure POSTGRES_DB=docs_agent (with underscore)
 
 # 4. Start all services
 docker-compose up -d
@@ -274,7 +281,7 @@ make clean        # Clean everything
 
 ### Docker Compose (.env)
 
-All variables are documented in `.env.example`. Just copy it and add your API keys!
+All variables are documented in `env.example`. Just copy it and add your API keys!
 
 ## 📊 API Endpoints
 
@@ -358,6 +365,24 @@ npm test
 ## 🐛 Troubleshooting
 
 ### Database Connection Issues
+
+**Error: `database "docsagent" does not exist`**
+
+This means your `.env` file has the wrong database name. Fix it:
+
+```bash
+# In .env, change this:
+POSTGRES_DB=docsagent  # ❌ Wrong (no underscore)
+
+# To this:
+POSTGRES_DB=docs_agent  # ✅ Correct (with underscore)
+
+# Then recreate the database:
+docker-compose down -v
+docker-compose up -d
+```
+
+**Other database issues:**
 
 ```bash
 # Check database is running
@@ -577,4 +602,4 @@ MIT
 
 **Built with ❤️ for Render.com**
 
-Get started in 5 minutes with `./start-docker.sh`!
+Get started in 5 minutes with `make setup`!

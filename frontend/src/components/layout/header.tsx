@@ -37,9 +37,14 @@ export function Header({ onToggleSidebar }: HeaderProps) {
           </h1>
         </div>
         <div className="ml-auto flex items-center gap-4">
-          <span className="hidden sm:inline text-sm text-muted-foreground">
-            Powered by Claude
-          </span>
+          <a
+            href="https://render.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hidden sm:inline text-sm text-muted-foreground hover:text-primary transition-colors"
+          >
+            Powered by Render
+          </a>
         </div>
       </div>
     </header>
